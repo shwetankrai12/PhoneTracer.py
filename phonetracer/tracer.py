@@ -1,29 +1,33 @@
 import phonenumbers
 from phonenumbers import geocoder
 import time
+import random
 
-class PhoneTracer:
-    def __init__(self):
-        self.version = "2.1"
+def start_phone_tracer(target):
+    print("[+] PhoneTracer v2.1 - OSINT")
+    print(f"[*] Target: {target}")
+    print("[*] Initiating trace...")
+    time.sleep(1)  # Added for dramatic effect
+    
+    try:
+        # Parse the phone number
+        p = phonenumbers.parse(target, None)
         
-    def trace(self, phone_number):
-        """Trace a phone number's location."""
-        try:
-            # Parse the phone number
-            parsed_number = phonenumbers.parse(phone_number, None)
-            
-            # Get the location description
-            location = geocoder.description_for_number(parsed_number, "en")
-            
-            return {
-                'number': phone_number,
-                'valid': True,
-                'location': location,
-                'carrier': None  # Can be implemented later
-            }
-        except phonenumbers.NumberParseException as e:
-            return {
-                'number': phone_number,
-                'valid': False,
-                'error': str(e)
-            }
+        # Get the location description (region info)
+        location = geocoder.description_for_number(p, "en")
+        
+        print(f"[+] Country/Region: {location}")
+        
+        # Additional checks could be added here
+        print("[+] Trace complete")
+
+    except phonenumbers.NumberParseException as e:
+        print(f"[!] Error: {e}")
+        print("[!] Please enter a valid phone number in international format (e.g., +12125551234)")
+
+# Example usage
+if _name_ == "_main_":
+    print("Phone Number Tracer")
+    print("-------------------")
+    phone_number = input("Enter phone number in international format (e.g., +12125551234): ")
+    start_phone_tracer(phone_number)
